@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WordPress Articles</title>
+    <script src="/static/chatbot/chat.js"></script>
+    <style>
+        .chat-messages {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 10px;
+            border: 1px solid gray;
+            max-height: 200px;
+            overflow-y: auto;
+            width: 300px;
+        }
+        .article-list {
+            margin: 20px;
+        }
+        .article-list a {
+            color: blue;
+            text-decoration: none;
+        }
+        .article-list a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>WordPress Articles</h1>
+    <div class="article-list">
+        {% if articles %}
+            <h2>Available Articles:</h2>
+            <ul>
+                {% for article in articles %}
+                    <li><a href="{{ article.url }}" target="_blank">{{ article.title }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No articles found. Sync them using the admin panel or API.</p>
+        {% endif %}
+    </div>
+    {% if chatbot_id %}
+        <div class="chat-messages"></div>
+        <script>
+            window.chatbaseConfig = {
+                chatbotId: "{{ chatbot_id }}",
+            }
+        </script>
+        <script src="https://www.chatbase.co/embed.min.js" defer></script>
+    {% else %}
+        <p>Chatbot not configured. Add ID in admin panel.</p>
+    {% endif %}
+</body>
+</html>
