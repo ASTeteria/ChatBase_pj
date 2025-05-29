@@ -124,4 +124,6 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-CHATBOT_ID = '??????'  # Получить на ChatBase
+CHATBOT_ID = 'a4fdkl6kfanbhz9g8evr3nbfguvuiipc'
+# BACKEND_API_URL = '???????'
+AGENT_ID = 'eMw0L8bwbIo0JyIEQf2VZ'
