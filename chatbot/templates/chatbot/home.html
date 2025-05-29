@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"> <!-- Кодировка -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Адаптивность -->
-    <title>WordPress Articles</title> <!-- Заголовок -->
-    <!-- Tailwind CSS CDN -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WordPress Articles</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Кастомные стили -->
+
     <link rel="stylesheet" href="/static/chatbot/styles.css">
-    <!-- JavaScript для чата -->
+
     <script src="/static/chatbot/chat.js" defer></script>
 </head>
-<body class="bg-gray-100 font-sans"> <!-- Фон и шрифт -->
-<!-- Заголовок -->
+<body class="bg-gray-100 font-sans">
+
 <header class="bg-blue-600 text-white py-6 shadow-md">
     <div class="container mx-auto px-4">
         <h1 class="text-3xl font-bold">WordPress Articles</h1>
     </div>
 </header>
 
-<!-- Список статей -->
+
 <main class="container mx-auto px-4 py-8">
     {% if articles %}
         <h2 class="text-2xl font-semibold mb-6">Доступные статьи:</h2>
@@ -36,7 +36,7 @@
     {% endif %}
 </main>
 
-<!-- Чатбот -->
+
 {% if chatbot_id %}
     <div id="chatbot-container" data-chatbot-id="{{ chatbot_id }}">
         <script>

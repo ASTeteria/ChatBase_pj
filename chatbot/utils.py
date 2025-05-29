@@ -1,10 +1,7 @@
 import requests
 
 def get_wordpress_articles(wordpress_url):
-    """
-    Загружает статьи (post) с WordPress.
-    Возвращает список с заголовками, текстом и ссылками (до 400 КБ).
-    """
+
     try:
         url = f"{wordpress_url}/wp-json/wp/v2/posts?per_page=100&type[]=post"
         response = requests.get(url)
