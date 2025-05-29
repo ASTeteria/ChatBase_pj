@@ -5,21 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function saveMessage(message, isUser) {
         chatHistory.push({ text: message, isUser: isUser });
         localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
-        showMessages();
-    }
-
-    // Показываем сообщения
-    function showMessages() {
-        const chatBox = document.querySelector('.chat-messages');
-        if (chatBox) {
-            chatBox.innerHTML = '';
-            chatHistory.forEach(msg => {
-                const div = document.createElement('div');
-                div.textContent = `${msg.isUser ? 'You' : 'Bot'}: ${msg.text}`;
-                chatBox.appendChild(div);
-            });
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
     }
 
     // Отправляем запрос в API
@@ -51,23 +36,19 @@ document.addEventListener('DOMContentLoaded', function() {
         return '';
     }
 
-    // Перехватываем сообщения чатбота
-    window.addEventListener('chatbaseMessage', async function(event) {
-        const message = event.detail?.message;
-        if (message) {
-            saveMessage(message, false);
+    // Перехватываем сообщения от Chatbase
+    window.addEventListener('message', async function(event) {
+        if (event.origin !== 'https://www.chatbase.co') return; // Проверяем источник
+        const message = event.data?.content; // Предполагаем формат { content: "..." }
+        if (message && typeof message === 'string') {
+            saveMessage(message, true); // Сохраняем запрос пользователя
+            const response = await searchArticles(message); // Вызываем поиск
+            saveMessage(response, false); // Сохраняем ответ
+            // Отправляем ответ в чатбот
+            const iframe = document.querySelector('iframe[src*="chatbase.co"]');
+            if (iframe) {
+                iframe.contentWindow.postMessage({ content: response }, 'https://www.chatbase.co');
+            }
         }
     });
-
-    // Перехватываем отправку сообщений
-    window.addEventListener('chatbaseSendMessage', async function(event) {
-        const query = event.detail?.message;
-        if (query) {
-            saveMessage(query, true);
-            const response = await searchArticles(query);
-            saveMessage(response, false);
-        }
-    });
-
-    showMessages();
 });
