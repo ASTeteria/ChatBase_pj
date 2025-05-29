@@ -1,56 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WordPress Articles</title>
-    <script src="/static/chatbot/chat.js"></script>
-    <style>
-        .chat-messages {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: white;
-            padding: 10px;
-            border: 1px solid gray;
-            max-height: 200px;
-            overflow-y: auto;
-            width: 300px;
-        }
-        .article-list {
-            margin: 20px;
-        }
-        .article-list a {
-            color: blue;
-            text-decoration: none;
-        }
-        .article-list a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Кастомные стили -->
+    <link rel="stylesheet" href="/static/chatbot/styles.css">
+    <!-- JavaScript для чата -->
+    <script src="/static/chatbot/chat.js" defer></script>
 </head>
-<body>
-    <h1>WordPress Articles</h1>
-    <div class="article-list">
+<body class="bg-gray-100 font-sans">
+    <!-- Заголовок -->
+    <header class="bg-blue-600 text-white py-6 shadow-md">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl font-bold">WordPress Articles</h1>
+        </div>
+    </header>
+
+    <!-- Список статей -->
+    <main class="container mx-auto px-4 py-8">
         {% if articles %}
-            <h2>Available Articles:</h2>
-            <ul>
+            <h2 class="text-2xl font-semibold mb-6">Доступные статьи:</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {% for article in articles %}
-                    <li><a href="{{ article.url }}" target="_blank">{{ article.title }}</a></li>
+                    <a href="{{ article.url }}" target="_blank"
+                       class="block bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition duration-300">
+                        <h3 class="text-xl font-medium text-blue-600">{{ article.title }}</h3>
+                    </a>
                 {% endfor %}
-            </ul>
+            </div>
         {% else %}
-            <p>No articles found. Sync them using the admin panel or API.</p>
+            <p class="text-gray-600">Статьи не найдены. Синхронизируйте их через админ-панель или API.</p>
         {% endif %}
-    </div>
-    {% if chatbot_id %}
-        <div class="chat-messages"></div>
-        <script>
-            window.chatbaseConfig = {
-                chatbotId: "{{ chatbot_id }}",
-            }
-        </script>
-        <script src="https://www.chatbase.co/embed.min.js" defer></script>
+    </main>
+
+    <!-- Чатбот -->
+    {% if agent_id %}
+        <div class="chat-container fixed bottom-4 right-4 w-80 bg-white rounded-lg shadow-2xl border border-gray-200"
+             data-agent-id="{{ agent_id }}">
+            <!-- Заголовок чата -->
+            <div class="bg-blue-600 text-white p-3 rounded-t-lg flex justify-between items-center">
+                <span class="font-semibold">Чат</span>
+                <button class="toggle-chat text-white hover:text-gray-200">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <!-- Сообщения -->
+            <div class="chat-messages h-64 p-3 overflow-y-auto bg-gray-50"></div>
+            <!-- Поле ввода -->
+            <input type="text" class="chat-input w-full p-3 border-t border-gray-200 rounded-b-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   placeholder="Задайте вопрос..." />
+        </div>
+        <!-- Кнопка чата -->
+        <button class="chat-button fixed bottom-4 right-4 w-12 h-12 bg-blue-600 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-blue-700 transition duration-300">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+            </svg>
+        </button>
     {% else %}
-        <p>Chatbot not configured. Add ID in admin panel.</p>
+        <p class="fixed bottom-4 right-4 text-red-600">Чатбот не настроен. Добавьте ID агента в админ-панели.</p>
     {% endif %}
 </body>
 </html>
