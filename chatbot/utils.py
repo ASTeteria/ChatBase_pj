@@ -1,4 +1,5 @@
 import requests
+from django.utils.html import strip_tags
 
 def get_wordpress_articles(wordpress_url):
 
@@ -15,6 +16,7 @@ def get_wordpress_articles(wordpress_url):
         for post in posts:
             title = post.get('title', {}).get('rendered', '')
             content = post.get('content', {}).get('rendered', '')
+            content = strip_tags(content)
             url = post.get('link', '')
             size = len(content.encode('utf-8'))
 

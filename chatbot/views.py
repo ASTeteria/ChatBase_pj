@@ -1,3 +1,4 @@
+
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -22,7 +23,7 @@ class WordPressSync(APIView):
 
         articles = get_wordpress_articles(wordpress_url)
         if not articles:
-            return Response({"error": "No articles found"}, status=500)
+            return Response({"error": "No articles found"}, status=400)
 
         config, created = Config.objects.get_or_create(wordpress_url=wordpress_url)
         config.is_active = True
@@ -45,9 +46,16 @@ class ArticleSearch(APIView):
             return Response({"error": "Query required"}, status=400)
 
 
-        articles = Article.objects.filter(
-            Q(title__icontains=query) | Q(content__icontains=query)
-        )
+        query_words = query.split()
+        print(f"Search query words: {query_words}")
+
+
+        query_filter = Q()
+        for word in query_words:
+            query_filter |= Q(title__icontains=word) | Q(content__icontains=word)
+
+        articles = Article.objects.filter(query_filter)
+        print(f"Found {articles.count()} articles")  # Логируем
 
         if not articles:
             return Response({"response": "No articles found for your query."}, status=200)

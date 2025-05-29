@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 const iframe = document.querySelector('iframe[src*="chatbase.co"]');
                 if (iframe) {
-                    console.log('Sending response to iframe:', response);
+                    console.log('Sending response to iframe:', response); // Логируем
                     iframe.contentWindow.postMessage(
                         { type: 'assistant-message', data: { content: response } },
                         'https://www.chatbase.co'
