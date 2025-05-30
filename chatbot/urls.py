@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import home, WordPressSync, ArticleSearch
+from . import views
 
 urlpatterns = [
-    path('', home, name='home'),
-    path('api/sync/', WordPressSync.as_view(), name='sync'),
-    path('api/search/', ArticleSearch.as_view(), name='search'),
+    path('api/sync/', views.WordPressSync.as_view(), name='wordpress-sync'),
+    path('api/search/', views.ArticleSearch.as_view(), name='article-search'),
+    path('', views.HomeView.as_view(), name='home'),
 ]
