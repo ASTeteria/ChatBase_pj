@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard - Psibot Chat{% endblock %}
+{% block content %}
+    {% load static %}
+    <div class="card">
+        <h1>Your Dashboard</h1>
+        <p>Welcome, {{ request.user.username }}!</p>
+        <button id="generate-agent-btn">Generate New Agent</button>
+    </div>
+    <div id="agent-id-container">
+        {% for agent in agents %}
+            <div class="agent-id-box" data-agent-id="{{ agent.agent_id }}">
+                Agent ID: {{ agent.agent_id }}
+            </div>
+        {% empty %}
+            <div class="card">
+                <p>No active agents. Generate one above!</p>
+            </div>
+        {% endfor %}
+    </div>
+    {% if agents %}
+        <div class="card">
+            <h2>Active Agents</h2>
+            <ul id="agent-list">
+                {% for agent in agents %}
+                    <li data-agent-id="{{ agent.agent_id }}">
+                        {{ agent.name }} (ID: {{ agent.agent_id }}) - Created: {{ agent.created_at }}
+                        <button class="delete-agent-btn" data-agent-id="{{ agent.agent_id }}">Delete</button>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    <script src="{% static 'js/dashboard.js' %}"></script>
+{% endblock %}

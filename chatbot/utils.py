@@ -1,6 +1,6 @@
 from django.utils.html import strip_tags
 
-def process_webhook_article(data):
+def process_article(data):
     title = data.get('title', '')
     content = strip_tags(data.get('content', ''))
     content = content.strip()

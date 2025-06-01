@@ -1,29 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChatBase - Home</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 flex flex-col min-h-screen">
-    <header class="bg-blue-600 text-white py-6">
-        <div class="container mx-auto text-center">
-            <h1 class="text-4xl font-bold">Welcome to ChatBase</h1>
-        </div>
-    </header>
-    <main class="flex-grow container mx-auto py-12 px-4">
-        <section class="text-center">
-            <h2 class="text-2xl font-semibold mb-4">Manage Your Articles</h2>
-            <a href="/admin/" class="inline-block bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-blue-700 transition">
-                Admin Panel
-            </a>
-        </section>
-    </main>
-    <footer class="bg-gray-800 text-white py-4">
-        <div class="container mx-auto text-center">
-            <p>&copy; Все цікаве</p>
-        </div>
-    </footer>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}Home - Psibot Chat{% endblock %}
+{% block content %}
+    <div class="card">
+        <h1>Welcome to Psibot Chat</h1>
+        {% if user.is_authenticated %}
+            <p>Hello, {{ user.username }}!</p>
+            <p><a href="{% url 'dashboard' %}" class="button">Go to Dashboard</a></p>
+        {% else %}
+            <p>Get started with your AI-powered chatbot.</p>
+            <p>
+                <a href="{% url 'login' %}" class="button">Login</a>
+                <a href="{% url 'register' %}" class="button">Register</a>
+            </p>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -5,7 +5,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-your-secret-key'
 DEBUG = True
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -16,6 +16,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'chatbot.apps.ChatbotConfig',
     'rest_framework',
+    'django.contrib.sites',
 ]
 
 MIDDLEWARE = [
@@ -56,10 +57,10 @@ DATABASES = {
 }
 
 AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validators.UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validators.MinimumLengthValidator'},
-    {'NAME': 'django.contrib.auth.password_validators.CommonPasswordValidator'},
-    {'NAME': 'django.contrib.auth.password_validators.NumericPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 LANGUAGE_CODE = 'en-us'
@@ -67,13 +68,20 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-WEBHOOK_API_KEY = 'my-secure-key-2025'
-WORDPRESS_URL = 'http://localhost/wordpress/news'
+WEBHOOK_API_KEY = 'psibot-standard-key-2025'
+
+AI_API_KEY = 'your-xai-api-key'
+AI_API_URL = 'https://api.x.ai/v1/chat/completions'
+
+LOGIN_REDIRECT_URL = '/dashboard/'
+LOGOUT_REDIRECT_URL = '/'
+SITE_ID = 1
 
 LOGGING = {
     'version': 1,
